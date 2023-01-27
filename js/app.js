@@ -1,13 +1,13 @@
 const form = document.getElementById("form");
-const container = document.querySelector('.container');
+const container = document.querySelector(".container");
 const search = document.getElementById("search");
-const mainContainer = document.getElementById('main');
+const mainContainer = document.getElementById("main");
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const location = search.value;
   setTimeout(() => {
-    const containerWeather = document.querySelector('.container--weather');
+    const containerWeather = document.querySelector(".container--weather");
     containerWeather.style.opacity = 1;
   }, 500);
   location
@@ -17,56 +17,56 @@ form.addEventListener("submit", function (event) {
         .then((response) => response.json())
         .then((data) => currentWeather(data))
     : console.log("Enter a location");
-    form.reset()
+  form.reset();
 });
 
 form.addEventListener("click", () => {
-  container.style.top = '5%'
+  container.style.top = "5%";
 });
 
 const currentWeather = (data) => {
-  const {main,weather,name, ...rest} = data;
+  const { main, weather, name, ...rest } = data;
   console.log(data);
-  createWeatherContainer(weather[0], main,name);
+  createWeatherContainer(weather[0], main, name);
 };
 
 const createWeatherContainer = (weather, main, name) => {
-  const {description, icon, ...restW} = weather;
-  const {temp, ...restM} = main;
+  const { description, icon, ...restW } = weather;
+  const { temp, ...restM } = main;
 
- const section = document.createElement('section');
- section.classList.add('container--weather');
+  const section = document.createElement("section");
+  section.classList.add("container--weather");
 
- const locationDiv = document.createElement('div');
- locationDiv.classList.add('location');
- 
- const locationDot = document.createElement('i');
- locationDot.setAttribute('class', 'fa-solid fa-location-dot');
+  const locationDiv = document.createElement("div");
+  locationDiv.classList.add("location");
 
- const locationName = document.createElement('span');
- locationName.setAttribute('id', 'locationName');
- locationName.innerText = name;
+  const locationDot = document.createElement("i");
+  locationDot.setAttribute("class", "fa-solid fa-location-dot");
 
- const image = document.createElement('img');
- image.setAttribute('src', `https://openweathermap.org/img/wn/${icon}@2x.png`);
+  const locationName = document.createElement("span");
+  locationName.setAttribute("id", "locationName");
+  locationName.innerText = name;
 
- const temperature = document.createElement('span');
- temperature.setAttribute('id', 'degree');
- temperature.innerText = temp.toFixed(0);
+  const image = document.createElement("img");
+  image.setAttribute("src", `https://openweathermap.org/img/wn/${icon}@2x.png`);
 
- const symbol = document.createElement('sup');
- symbol.innerHTML = '°';
+  const temperature = document.createElement("span");
+  temperature.setAttribute("id", "degree");
+  temperature.innerText = temp.toFixed(0);
 
- const status = document.createElement('span');
- status.setAttribute('id', 'status');
- status.innerText = description;
+  const symbol = document.createElement("sup");
+  symbol.innerHTML = "°";
 
- mainContainer.prepend(section);
- section.appendChild(locationDiv);
- locationDiv.appendChild(locationDot);
- locationDiv.appendChild(locationName);
- section.appendChild(image);
- section.appendChild(temperature);
- temperature.appendChild(symbol)
- section.appendChild(status);
-}
+  const status = document.createElement("span");
+  status.setAttribute("id", "status");
+  status.innerText = description;
+
+  mainContainer.prepend(section);
+  section.appendChild(locationDiv);
+  locationDiv.appendChild(locationDot);
+  locationDiv.appendChild(locationName);
+  section.appendChild(image);
+  section.appendChild(temperature);
+  temperature.appendChild(symbol);
+  section.appendChild(status);
+};
