@@ -2,9 +2,14 @@ const form = document.getElementById("form");
 const container = document.querySelector('.container');
 const search = document.getElementById("search");
 const mainContainer = document.getElementById('main');
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const location = search.value;
+  setTimeout(() => {
+    const containerWeather = document.querySelector('.container--weather');
+    containerWeather.style.opacity = 1;
+  }, 500);
   location
     ? fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=32c5514ebf687e3924f638bc1d91f51a&units=metric`
@@ -12,6 +17,7 @@ form.addEventListener("submit", function (event) {
         .then((response) => response.json())
         .then((data) => currentWeather(data))
     : console.log("Enter a location");
+    form.reset()
 });
 
 form.addEventListener("click", () => {
@@ -27,15 +33,7 @@ const currentWeather = (data) => {
 const createWeatherContainer = (weather, main, name) => {
   const {description, icon, ...restW} = weather;
   const {temp, ...restM} = main;
-//   <section class="container--weather">
-//   <div class="location">
-//     <i class="fa-solid fa-location-dot"></i>
-//     <span id="locationName">Osmaniye</span>
-//   </div>
-//   <img src="https://openweathermap.org/img/wn/04d@2x.png" alt="">
-//     <span id="degree">32<sup>&deg;</sup></span>
-//   <span id="status">Bulutlu</span>
-// </section>
+
  const section = document.createElement('section');
  section.classList.add('container--weather');
 
