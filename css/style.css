@@ -112,3 +112,11 @@ main {
   border-radius: 10px;
   margin: 0 20px 0 20px;
 }
+
+@media screen and (max-width: 600px){
+  #info-screen {
+    padding-top: 150px;
+    align-items: flex-start;
+  }
+}
+  
