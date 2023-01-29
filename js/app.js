@@ -25,14 +25,14 @@ form.addEventListener("click", () => {
 });
 
 const currentWeather = (data) => {
-  const { main, weather, name, ...rest } = data;
+  const { main, weather, name} = data;
   console.log(data);
   createWeatherContainer(weather[0], main, name);
 };
 
 const createWeatherContainer = (weather, main, name) => {
-  const { description, icon, ...restW } = weather;
-  const { temp, ...restM } = main;
+  const { description, icon} = weather;
+  const { temp} = main;
 
   const section = document.createElement("section");
   section.classList.add("container--weather");
