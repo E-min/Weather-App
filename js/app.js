@@ -27,7 +27,7 @@ form.addEventListener("submit", function (event) {
   form.reset();
 });
 
-mainContainer.addEventListener("click", (e) => {
+document.body.addEventListener("click", (e) => {
   if(e.target.id === 'search') {
     container.style.top = "5%";
   } else if (e.target.classList.contains("close-card")) {
@@ -74,6 +74,8 @@ const currentWeather = (data) => {
 };
 
 const createInfoScreen = (textContent) => {
+  const infoSection = document.querySelector('.info-section');
+  infoSection.innerText = ''
   const infoScreen = document.createElement('section');
   infoScreen.setAttribute('id', 'info-screen');
   const infoContainer = document.createElement('div');
@@ -82,7 +84,7 @@ const createInfoScreen = (textContent) => {
   closeInfo.classList.add('fa-solid', 'fa-xmark', 'close-info');
   const infoText = document.createElement('p');
   infoText.innerText = textContent;
-  mainContainer.prepend(infoScreen);
+  infoSection.prepend(infoScreen);
   infoScreen.appendChild(infoContainer);
   infoContainer.append(closeInfo, infoText);
 }
