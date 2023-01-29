@@ -23,15 +23,14 @@ form.addEventListener("submit", function (event) {
       )
         .then((response) => response.json())
         .then((data) => currentWeather(data))
-    : console.log("Enter a location");
+    : createInfoScreen('Please, Enter a location');
   form.reset();
 });
 
 mainContainer.addEventListener("click", (e) => {
   if(e.target.id === 'search') {
     container.style.top = "5%";
-  }
-  if (e.target.classList.contains("close-card")) {
+  } else if (e.target.classList.contains("close-card")) {
     e.target.closest("section").style.opacity = 0;
     //remove after opacity animation ended
     setTimeout(() => {
@@ -44,6 +43,8 @@ mainContainer.addEventListener("click", (e) => {
       }
     });
     localStorage.setItem("containers", JSON.stringify(containersInStorage));
+  } else if (e.target.classList.contains('close-info')|| e.target.id === 'info-screen'){
+         e.target.closest('section').remove()
   }
 });
 
@@ -68,18 +69,22 @@ const currentWeather = (data) => {
     containersInStorage.push(weatherInfos);
     localStorage.setItem("containers", JSON.stringify(containersInStorage));
   } else {
-    alert("You already have that location");
+    createInfoScreen('Please, Enter different locations. That location already added.');
   }
 };
 
 const createInfoScreen = (textContent) => {
-  // <div id="info-screen">
-  //     <div class="info-container">
-  //       <i class="fa-solid fa-xmark close-info"></i>
-  //       <p>Please, enter different locations.<br> This location already added.</p>
-  //     </div>
-  //   </div>
-  const infoContainer = document.createElement('div')
+  const infoScreen = document.createElement('section');
+  infoScreen.setAttribute('id', 'info-screen');
+  const infoContainer = document.createElement('div');
+  infoContainer.classList.add('info-container');
+  const closeInfo = document.createElement('i');
+  closeInfo.classList.add('fa-solid', 'fa-xmark', 'close-info');
+  const infoText = document.createElement('p');
+  infoText.innerText = textContent;
+  mainContainer.prepend(infoScreen);
+  infoScreen.appendChild(infoContainer);
+  infoContainer.append(closeInfo, infoText);
 }
 
 const createWeatherContainer = (weatherInfos) => {
@@ -112,12 +117,8 @@ const createWeatherContainer = (weatherInfos) => {
   xMark.classList.add("fa-solid", "fa-xmark",'close-card');
 
   mainContainer.prepend(section);
-  section.appendChild(xMark);
-  section.appendChild(locationDiv);
-  locationDiv.appendChild(locationDot);
-  locationDiv.appendChild(locationName);
-  section.appendChild(image);
-  section.appendChild(temperature);
+  section.append(xMark, locationDiv);
+  locationDiv.append(locationDot, locationName);
+  section.append(image, temperature ,status);
   temperature.appendChild(symbol);
-  section.appendChild(status);
 };
