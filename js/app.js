@@ -3,8 +3,7 @@ const container = document.querySelector(".container");
 const search = document.getElementById("search");
 const mainContainer = document.getElementById("main");
 
-const containersInStorage =
-  JSON.parse(localStorage.getItem("containers")) || [];
+const containersInStorage = JSON.parse(localStorage.getItem("containers")) || [];
 
 window.addEventListener("load", () => {
   containersInStorage.forEach((container) => {
@@ -12,22 +11,12 @@ window.addEventListener("load", () => {
   });
   if (containersInStorage.length) {
     container.style.top = "5%";
-    const allContainers = document.querySelectorAll(".container--weather");
-    allContainers.forEach((container) => {
-      setTimeout(() => {
-        container.style.opacity = 1;
-      }, 500);
-    });
   }
 });
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const location = search.value;
-  setTimeout(() => {
-    const containerWeather = document.querySelector(".container--weather");
-    containerWeather.style.opacity = 1;
-  }, 500);
   location
     ? fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=32c5514ebf687e3924f638bc1d91f51a&units=metric`
@@ -38,18 +27,17 @@ form.addEventListener("submit", function (event) {
   form.reset();
 });
 
-form.addEventListener("click", () => {
-  container.style.top = "5%";
-});
-
 mainContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("fa-xmark")) {
+  if(e.target.id === 'search') {
+    container.style.top = "5%";
+  }
+  if (e.target.classList.contains("close-card")) {
     e.target.closest("section").style.opacity = 0;
+    //remove after opacity animation ended
     setTimeout(() => {
       e.target.closest("section").remove();
     }, 500);
     //delete from local storage
-    console.log(e.target.nextElementSibling.innerText);
     containersInStorage.forEach((container, index) => {
       if (container.name === e.target.nextElementSibling.innerText) {
         containersInStorage.splice(index, 1);
@@ -69,13 +57,13 @@ const currentWeather = (data) => {
     temp: temp,
     name: name,
   };
-  let sameName = true;
+  let notSameName = true;
   for (const container of containersInStorage) {
     if (name == container.name) {
-      sameName = false;
+      notSameName = false;
     }
   }
-  if (sameName) {
+  if (notSameName) {
     createWeatherContainer(weatherInfos);
     containersInStorage.push(weatherInfos);
     localStorage.setItem("containers", JSON.stringify(containersInStorage));
@@ -84,12 +72,25 @@ const currentWeather = (data) => {
   }
 };
 
+const createInfoScreen = (textContent) => {
+  // <div id="info-screen">
+  //     <div class="info-container">
+  //       <i class="fa-solid fa-xmark close-info"></i>
+  //       <p>Please, enter different locations.<br> This location already added.</p>
+  //     </div>
+  //   </div>
+  const infoContainer = document.createElement('div')
+}
+
 const createWeatherContainer = (weatherInfos) => {
   const { description, icon, temp, name } = weatherInfos;
-
   //create container elements and give their attributes
   const section = document.createElement("section");
   section.classList.add("container--weather");
+  //appearing animation
+  setTimeout(() => {
+    section.style.opacity = 1;
+  }, 500);
   const locationDiv = document.createElement("div");
   locationDiv.classList.add("location");
   const locationDot = document.createElement("i");
@@ -108,7 +109,7 @@ const createWeatherContainer = (weatherInfos) => {
   status.setAttribute("id", "status");
   status.innerText = description;
   const xMark = document.createElement("i");
-  xMark.classList.add("fa-solid", "fa-xmark");
+  xMark.classList.add("fa-solid", "fa-xmark",'close-card');
 
   mainContainer.prepend(section);
   section.appendChild(xMark);
