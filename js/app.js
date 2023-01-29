@@ -23,6 +23,14 @@ form.addEventListener("submit", function (event) {
 form.addEventListener("click", () => {
   container.style.top = "5%";
 });
+mainContainer.addEventListener('click', (e) => {
+  if(e.target.classList.contains('fa-xmark')){
+    e.target.closest('section').style.opacity = 0;
+    setTimeout(() => {
+    e.target.closest('section').remove();
+    }, 500);
+  }
+});
 
 const currentWeather = (data) => {
   const { main, weather, name} = data;
@@ -61,8 +69,12 @@ const createWeatherContainer = (weather, main, name) => {
   status.setAttribute("id", "status");
   status.innerText = description;
 
+  const xMark = document.createElement('i');
+  xMark.classList.add('fa-solid','fa-xmark');
+
   mainContainer.prepend(section);
   section.appendChild(locationDiv);
+  section.appendChild(xMark);
   locationDiv.appendChild(locationDot);
   locationDiv.appendChild(locationName);
   section.appendChild(image);

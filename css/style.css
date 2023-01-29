@@ -39,6 +39,7 @@ main {
   font-size: 1.3rem;
 }
 .container--weather {
+  position: relative;
   width: 150px;
   height: 220px;
   border-radius: 10px;
@@ -47,7 +48,7 @@ main {
   flex-direction: column;
   align-items: center;
   margin: 10px;
-  padding: 10px;
+  padding-top: 10px;
   opacity: 0;
   transition: opacity 1s;
   text-align: center;
@@ -59,7 +60,24 @@ main {
 .fa-magnifying-glass {
   font-size: 1.5rem;
 }
+.fa-location-dot {
+  margin-right: 2px;
+}
 #degree {
   height: 40px;
   font-size: 1.5rem;
+}
+.fa-xmark {
+  background-color: crimson;
+  position: absolute;
+  color: white;
+  border-radius: 50%;
+  right: -7px;
+  top: -7px;
+  padding: 2px 5px 2px 5px;
+}
+.fa-xmark:hover {
+  cursor: pointer;
+  color: black;
+  transform: scale(1.1);
 }
